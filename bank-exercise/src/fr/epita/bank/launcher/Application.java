@@ -1,5 +1,11 @@
 package fr.epita.bank.launcher;
 
+import fr.epita.bank.datamodel.Customer;
+import fr.epita.bank.datamodel.SavingsAccount;
+import static fr.epita.bank.services.ApplicationActivitiesService.*;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Application {
@@ -12,8 +18,12 @@ public class Application {
         System.out.println("9. quit the application");
         Scanner scanner = new Scanner(System.in);
         String answer = scanner.nextLine();
-        if (answer.equals("1")){
+        List<SavingsAccount> accounts = new ArrayList<>();
 
+        if (answer.equals("1")){
+            Customer customer = createCustomerFromUserInput(scanner);
+            SavingsAccount savingsFromUserInput = createSavingsFromUserInput(scanner, customer);
+            accounts.add(savingsFromUserInput);
         } else if (answer.equals("9")){
 
         } else {
