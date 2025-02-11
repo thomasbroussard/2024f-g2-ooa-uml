@@ -26,4 +26,15 @@ public class ApplicationActivitiesService {
         Customer firstCustomer = new Customer(customerName, customerAddress);
         return firstCustomer;
     }
+
+    public static void withdrawMoney(Scanner scanner, SavingsAccount savingsAccount){
+        System.out.println("Input the amount:");
+        Integer amount = Integer.parseInt(scanner.nextLine());
+        Double balance = savingsAccount.getBalance();
+        if (balance < amount){
+            System.out.println("insufficient balance, the current balance is : " + balance +" you requested :" + amount);
+        } else {
+            savingsAccount.setBalance(balance - amount);
+        }
+    }
 }

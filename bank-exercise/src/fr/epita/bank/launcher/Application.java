@@ -24,8 +24,10 @@ public class Application {
             Customer customer = createCustomerFromUserInput(scanner);
             SavingsAccount savingsFromUserInput = createSavingsFromUserInput(scanner, customer);
             accounts.add(savingsFromUserInput);
-        } else if (answer.equals("9")){
+        } else if (answer.equals("2")){
+            //account selection before, take the first account for now
 
+            withdrawMoney(scanner, accounts.get(0));
         } else {
             System.out.println("option not recognized, try again");
         }
