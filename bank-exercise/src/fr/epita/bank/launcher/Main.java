@@ -3,6 +3,8 @@ package fr.epita.bank.launcher;
 import fr.epita.bank.datamodel.Customer;
 import fr.epita.bank.datamodel.SavingsAccount;
 
+import java.util.Scanner;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -12,10 +14,16 @@ public class Main {
         // 4. increase the balance of the account with the gains
         // 5. Quentin wants to withdraw 300€ then 500€, if the balance is negative a warning should be issued
 
+        System.out.println("please input the customer name");
+        Scanner scanner = new Scanner(System.in);
+        String line = scanner.nextLine();
+        System.out.println("you have input this : "  + line);
+
         //1.
         Customer quentin = new Customer("Quentin", "Paris");
 
         //2.
+        Double inst = Double.parseDouble(line);
         SavingsAccount savingsAccount = new SavingsAccount(500.0, quentin);
 
         //3.
