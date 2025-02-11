@@ -14,7 +14,7 @@ public class Application {
         System.out.println("Welcome to this bank application");
         System.out.println("What would you like to do?");
         System.out.println("1. create a customer");
-        //more options later
+        System.out.println("2. withdraw money");
         System.out.println("9. quit the application");
         Scanner scanner = new Scanner(System.in);
         String answer = scanner.nextLine();
