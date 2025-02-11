@@ -20,11 +20,15 @@ public class Main {
         System.out.println("you have input this : "  + line);
 
         //1.
-        Customer quentin = new Customer("Quentin", "Paris");
+        Customer firstCustomer = createCustomerFromUserInput(scanner);
 
         //2.
-        Double inst = Double.parseDouble(line);
-        SavingsAccount savingsAccount = new SavingsAccount(500.0, quentin);
+        System.out.println("please enter an account balance (floating point format)");
+        Double balance = Double.parseDouble(scanner.nextLine());
+        System.out.println("please enter an interest rate (floating point format)");
+        Double interestRate = Double.parseDouble(scanner.nextLine());
+        SavingsAccount savingsAccount = new SavingsAccount(balance, firstCustomer);
+        savingsAccount.setInterestRate(interestRate);
 
         //3.
         Double interestGains = savingsAccount.getInterestRate() * savingsAccount.getBalance();
@@ -37,5 +41,14 @@ public class Main {
 
 
         //TODO find a usecase involving stocks, stock orders, investment account.
+    }
+
+    private static Customer createCustomerFromUserInput(Scanner scanner) {
+        System.out.println("please enter a customer name: ");
+        String customerName = scanner.nextLine();
+        System.out.println("please enter a customer address: ");
+        String customerAddress = scanner.nextLine();
+        Customer firstCustomer = new Customer(customerName, customerAddress);
+        return firstCustomer;
     }
 }
