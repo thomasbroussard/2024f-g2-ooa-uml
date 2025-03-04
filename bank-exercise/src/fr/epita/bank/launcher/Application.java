@@ -12,7 +12,9 @@ public class Application {
 
     public static void main(String[] args) {
         System.out.println("Welcome to this bank application");
-        //
+        List<SavingsAccount> accounts = new ArrayList<>();
+        List<Customer> customers = new ArrayList<>();
+
         String answer = "";
         do {
             System.out.println("What would you like to do?");
@@ -22,9 +24,9 @@ public class Application {
             System.out.println("9. quit the application");
             Scanner scanner = new Scanner(System.in);
             answer = scanner.nextLine();
-            List<SavingsAccount> accounts = new ArrayList<>();
             if (answer.equals("1")) {
                 Customer customer = createCustomerFromUserInput(scanner);
+                customers.add(customer);
                 SavingsAccount savingsFromUserInput = createSavingsFromUserInput(scanner, customer);
                 accounts.add(savingsFromUserInput);
                 //TODO add customer in a customers list
@@ -32,7 +34,8 @@ public class Application {
                 //account selection before, take the first account for now
                 withdrawMoney(scanner, accounts.get(0));
             } else if (answer.equals("3")){
-                //TODO implement
+                System.out.println("Printing the list of customers");
+                System.out.println(customers);
             } else {
 
                 System.out.println("option not recognized, try again");
