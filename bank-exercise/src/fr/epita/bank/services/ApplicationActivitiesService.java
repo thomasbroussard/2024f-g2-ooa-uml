@@ -9,7 +9,14 @@ import java.util.Scanner;
 public class ApplicationActivitiesService {
 
 
-    public static SavingsAccount createSavingsFromUserInput(Scanner scanner, Customer customer) {
+    private Scanner scanner;
+
+    public ApplicationActivitiesService(Scanner scanner){
+       this.scanner = scanner;
+    }
+
+
+    public SavingsAccount createSavingsFromUserInput( Customer customer) {
         System.out.println("please enter an account balance (floating point format)");
         Double balance = Double.parseDouble(scanner.nextLine());
         System.out.println("please enter an interest rate (floating point format)");
@@ -19,7 +26,7 @@ public class ApplicationActivitiesService {
         return savingsAccount;
     }
 
-    public static Customer createCustomerFromUserInput(Scanner scanner) {
+    public Customer createCustomerFromUserInput() {
         System.out.println("please enter a customer name: ");
         String customerName = scanner.nextLine();
         System.out.println("please enter a customer address: ");
@@ -28,13 +35,13 @@ public class ApplicationActivitiesService {
         return firstCustomer;
     }
 
-    public static void customersToCsv(List<Customer> customers) {
+    public void customersToCsv(List<Customer> customers) {
         System.out.println("Printing the list of customers");
         System.out.println("name,address");
         customers.forEach(System.out::println);
     }
 
-    public static void withdrawMoney(Scanner scanner, SavingsAccount savingsAccount){
+    public void withdrawMoney(SavingsAccount savingsAccount){
         System.out.println("Input the amount:");
         Integer amount = Integer.parseInt(scanner.nextLine());
         Double balance = savingsAccount.getBalance();

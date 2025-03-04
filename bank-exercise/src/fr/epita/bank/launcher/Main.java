@@ -2,14 +2,12 @@ package fr.epita.bank.launcher;
 
 import fr.epita.bank.datamodel.Customer;
 import fr.epita.bank.datamodel.SavingsAccount;
+import fr.epita.bank.services.ApplicationActivitiesService;
 
 import java.util.Scanner;
 
 import static fr.epita.bank.services.AccountService.computeInterestGains;
 import static fr.epita.bank.services.AccountService.increaseBalance;
-import static fr.epita.bank.services.ApplicationActivitiesService.createCustomerFromUserInput;
-import static fr.epita.bank.services.ApplicationActivitiesService.createSavingsFromUserInput;
-
 public class Main {
 
     public static void main(String[] args) {
@@ -20,13 +18,13 @@ public class Main {
         // 5. Quentin wants to withdraw 300€ then 500€, if the balance is negative a warning should be issued
 
         Scanner scanner = new Scanner(System.in);
-
+        ApplicationActivitiesService activities = new ApplicationActivitiesService(scanner);
 
         //1.
-        Customer firstCustomer = createCustomerFromUserInput(scanner);
+        Customer firstCustomer = activities.createCustomerFromUserInput();
 
         //2.
-        SavingsAccount savingsAccount = createSavingsFromUserInput(scanner, firstCustomer);
+        SavingsAccount savingsAccount = activities.createSavingsFromUserInput(firstCustomer);
 
         //3.
         Double interestGains = computeInterestGains(savingsAccount);
