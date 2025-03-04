@@ -3,6 +3,7 @@ package fr.epita.bank.services;
 import fr.epita.bank.datamodel.Customer;
 import fr.epita.bank.datamodel.SavingsAccount;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class ApplicationActivitiesService {
@@ -25,6 +26,12 @@ public class ApplicationActivitiesService {
         String customerAddress = scanner.nextLine();
         Customer firstCustomer = new Customer(customerName, customerAddress);
         return firstCustomer;
+    }
+
+    public static void customersToCsv(List<Customer> customers) {
+        System.out.println("Printing the list of customers");
+        System.out.println("name,address");
+        customers.forEach(System.out::println);
     }
 
     public static void withdrawMoney(Scanner scanner, SavingsAccount savingsAccount){

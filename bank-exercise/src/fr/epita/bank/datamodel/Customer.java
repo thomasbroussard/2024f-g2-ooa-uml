@@ -32,9 +32,6 @@ public class Customer {
 
     @Override
     public String toString() {
-        return "Customer{" +
-                "name='" + name + '\'' +
-                ", address='" + address + '\'' +
-                '}';
+        return  name + ", " + address;
     }
 }

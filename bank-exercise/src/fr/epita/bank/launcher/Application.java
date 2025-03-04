@@ -34,8 +34,7 @@ public class Application {
                 //account selection before, take the first account for now
                 withdrawMoney(scanner, accounts.get(0));
             } else if (answer.equals("3")){
-                System.out.println("Printing the list of customers");
-                System.out.println(customers);
+                customersToCsv(customers);
             } else {
 
                 System.out.println("option not recognized, try again");
@@ -43,4 +42,6 @@ public class Application {
         }while (!"9".equals(answer));
 
     }
+
+
 }
