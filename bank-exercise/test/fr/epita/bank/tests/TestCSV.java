@@ -4,6 +4,7 @@ import fr.epita.bank.datamodel.Customer;
 import fr.epita.bank.services.ApplicationActivitiesService;
 
 import java.util.List;
+import java.util.Scanner;
 
 public class TestCSV {
 
@@ -15,8 +16,8 @@ public class TestCSV {
         Customer customer5 = new Customer("e", "Lyon");
 
         List<Customer> customers = List.of(customer1, customer2, customer3, customer4, customer5);
-
-        ApplicationActivitiesService.customersToCsv(customers);
+        ApplicationActivitiesService activitiesService = new ApplicationActivitiesService(new Scanner(System.in));
+        activitiesService.customersToCsv(customers);
 
     }
 }
