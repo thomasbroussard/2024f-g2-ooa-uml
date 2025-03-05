@@ -10,7 +10,7 @@ import java.util.List;
 public class CSVService {
 
     public List<Customer> readCustomersFromCSV(){
-
+        List<String> lines = Files.readAllLines(new File("export.csv").toPath());
         //TODO implement
         return null;
     }
