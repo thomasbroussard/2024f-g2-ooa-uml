@@ -37,9 +37,14 @@ public class ApplicationActivitiesService {
 
     public void customersToCsv(List<Customer> customers) {
         System.out.println("Printing the list of customers");
-        System.out.println("name,address");
-        customers.forEach(System.out::println);
+        //TODO check for having this CSVService defined in the class as a field
+        String result = new CSVService().customersToCSVContent(customers);
+        System.out.println(result);
+
     }
+
+
+
 
     public void withdrawMoney(SavingsAccount savingsAccount){
         System.out.println("Input the amount:");
