@@ -44,4 +44,8 @@ public class Triangle {
     public void setSideB(Double sideB) {
         this.sideB = sideB;
     }
+
+    public Double getArea(){
+        return this.base * this.height / 2;
+    }
 }
