@@ -48,4 +48,8 @@ public class Triangle {
     public Double getArea(){
         return this.base * this.height / 2;
     }
+
+    public Double getPerimeter() {
+        return this.base + this.sideB + this.sideA;
+    }
 }

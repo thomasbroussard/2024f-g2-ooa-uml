@@ -10,5 +10,8 @@ public class TestTriangle {
         //get area: we should expect 100 * 10 / 2 = 500.0
         System.out.println(triangle.getArea());
 
+        //get perimeter: we should have: 5 + 5 + 100 = 110
+        System.out.println(triangle.getPerimeter());
+
     }
 }
