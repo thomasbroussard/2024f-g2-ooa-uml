@@ -13,6 +13,19 @@ public class TestCSV {
     public static void main(String[] args) throws IOException {
         //testCSVContent();
 
+        // testCSVExport();
+
+        CSVService service = new CSVService();
+        //we should have the export already ready
+
+        List<Customer> customers = service.readCustomersFromCSV();
+        System.out.println(service.customersToCSVContent(customers)
+        );
+
+
+    }
+
+    private static void testCSVExport() throws IOException {
         CSVService service = new CSVService();
 
         Customer customer1 = new Customer("a", "Paris");
@@ -24,7 +37,6 @@ public class TestCSV {
         List<Customer> customers = List.of(customer1, customer2, customer3, customer4, customer5);
 
         service.exportCustomerToCSV(customers);
-
     }
 
     private static void testCSVContent() {
