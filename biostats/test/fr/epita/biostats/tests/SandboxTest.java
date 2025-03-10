@@ -2,6 +2,10 @@ package fr.epita.biostats.tests;
 
 import fr.epita.biostats.datamodel.BiostatEntry;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.List;
+
 public class SandboxTest {
 
     public static void main(String[] args) {
@@ -32,6 +36,19 @@ public class SandboxTest {
                 cleanHeight,
                 cleanWeight
         );
+
+        List<String> lines = Files.readAllLines(Path.of("biostats.csv"));
+        List<BiostatEntry> entries;
+        for (String currentLine : lines){
+
+        }
+
+        //then do the reverse operation: save the entries in an other file
+        String theContentToBeWritten = "";
+        Files.writeString(Path.of("export.csv"),theContentToBeWritten);
+
+
+        //Bonus : you have to compute the birth year from the age column
 
 
     }
