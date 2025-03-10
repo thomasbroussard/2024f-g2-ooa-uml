@@ -15,5 +15,7 @@ public class SandboxTest {
 
         System.out.println(cleanHeight);
         System.out.println(Integer.parseInt(cleanHeight));
+
+        //map the array "parts" to a BiostatEntry instance
     }
 }
