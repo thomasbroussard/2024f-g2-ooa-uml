@@ -14,6 +14,7 @@ public class BiostatCsvService {
     public List<BiostatEntry> importBiostatEntries(String theFileName) throws IOException {
         List<String> lines = Files.readAllLines(Path.of(theFileName));
         List<BiostatEntry> entries = new ArrayList<>();
+        lines.remove(0);
         for (String line : lines){
             String[] parts = line.split(",");
 
@@ -41,8 +42,18 @@ public class BiostatCsvService {
         return entries;
     }
 
-    public void exportBiostatEntries(String anotherFileName, List<BiostatEntry> entries) {
-        //TODO complete
-        Files.writeString(Path.of("export.csv"),theContentToBeWritten);
+    public void exportBiostatEntries(String anotherFileName, List<BiostatEntry> entries) throws IOException {
+
+        StringBuilder builder = new StringBuilder();
+        builder.append("Name,Sex,Age,Height,Weight");
+        for (BiostatEntry entry : entries){
+            builder.append(entry.getName()).append(",")
+                    .append(entry.getSex()).append(",")
+                    .append(entry.getAge()).append(",")
+                    .append(entry.getHeight()).append(",")
+                    .append(entry.getWeight()).append(System.lineSeparator());
+        }
+
+        Files.writeString(Path.of(anotherFileName),builder.toString());
     }
 }
