@@ -2,10 +2,9 @@ package fr.epita.biostats.services.db;
 
 import fr.epita.biostats.datamodel.BiostatEntry;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BiostatDAO {
 
@@ -33,6 +32,27 @@ public class BiostatDAO {
         insertStatement.setInt(5, entry.getWeight());
         insertStatement.execute();
     }
+
+    public List<BiostatEntry> readAll() throws SQLException {
+        List<BiostatEntry> result = new ArrayList<>();
+        Connection connection = getConnection();
+        PreparedStatement selectStmt
+                = connection.prepareStatement("SELECT * FROM BIOSTATS");
+
+        ResultSet resultSet = selectStmt.executeQuery();
+        while (resultSet.next()){
+            String name = resultSet.getString("name");
+            String gender = resultSet.getString("gender");
+            Integer age = resultSet.getInt("age");
+            Integer height = resultSet.getInt("height");
+            Integer weight = resultSet.getInt("weight");
+            result.add(new BiostatEntry(name, gender, age, height, weight));
+        }
+
+        return result;
+
+    }
+
 
     private static Connection getConnection() throws SQLException {
         Connection connection = DriverManager

@@ -26,16 +26,6 @@ public class DatabaseAccessTest {
         dao.create(entry);
 
         //TODO: refactor this into a readAll method of the DAO
-        PreparedStatement selectStmt
-                = connection.prepareStatement("SELECT * FROM BIOSTATS");
-
-        ResultSet resultSet = selectStmt.executeQuery();
-        while (resultSet.next()){
-            String name = resultSet.getString("name");
-            String gender = resultSet.getString("gender");
-            System.out.println(name);
-            System.out.println(gender);
-        }
-
+        System.out.println(dao.readAll());
     }
 }

@@ -56,4 +56,15 @@ public class BiostatEntry {
     public void setWeight(Integer weight) {
         this.weight = weight;
     }
+
+    @Override
+    public String toString() {
+        return "BiostatEntry{" +
+                "name='" + name + '\'' +
+                ", sex='" + sex + '\'' +
+                ", age=" + age +
+                ", height=" + height +
+                ", weight=" + weight +
+                '}';
+    }
 }
