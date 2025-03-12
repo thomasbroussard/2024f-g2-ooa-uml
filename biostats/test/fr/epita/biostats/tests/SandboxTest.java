@@ -2,6 +2,7 @@ package fr.epita.biostats.tests;
 
 import fr.epita.biostats.datamodel.BiostatEntry;
 import fr.epita.biostats.services.BiostatCsvService;
+import fr.epita.biostats.services.BiostatDataService;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -40,6 +41,9 @@ public class SandboxTest {
 
         Double averageHeight = getAverageOfSomething(entries, BiostatEntry::getHeight);
 
+        BiostatDataService biostatDataService = new BiostatDataService();
+
+        //some approaches to do the distribution
         //group by gender and count
         int Fcounter = 0;
         int Mcounter = 0;
@@ -53,6 +57,7 @@ public class SandboxTest {
         System.out.println("F entries count :" + Fcounter);
         System.out.println("M entries count :" + Mcounter);
 
+        //using a map
         Map<String, Integer> countPerGender = new HashMap<>();
 
         for (BiostatEntry entry : entries){
@@ -64,6 +69,7 @@ public class SandboxTest {
             }
         }
 
+        //using the stream api
         Map<String, Long> groupByGenderCount = entries.stream()
                 .collect(Collectors.groupingBy(BiostatEntry::getSex, Collectors.counting()));
 
