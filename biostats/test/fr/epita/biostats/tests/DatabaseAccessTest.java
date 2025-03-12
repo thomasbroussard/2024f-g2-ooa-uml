@@ -1,5 +1,8 @@
 package fr.epita.biostats.tests;
 
+import fr.epita.biostats.datamodel.BiostatEntry;
+import fr.epita.biostats.services.db.BiostatDAO;
+
 import java.sql.*;
 
 public class DatabaseAccessTest {
@@ -18,12 +21,11 @@ public class DatabaseAccessTest {
         String schema = connection.getSchema();
         System.out.println(schema);
 
-        PreparedStatement createTableStmt = connection.prepareStatement("CREATE TABLE BIOSTATS (NAME varchar(255), GENDER CHAR)");
-        createTableStmt.execute();
+        BiostatDAO dao = new BiostatDAO();
+        BiostatEntry entry = new BiostatEntry("test", "F",22, 170, 70);
+        dao.create(entry);
 
-        PreparedStatement insertStatement = connection.prepareStatement("INSERT INTO BIOSTATS (NAME, GENDER) VALUES ('test', 'F')");
-        insertStatement.execute();
-
+        //TODO: refactor this into a readAll method of the DAO
         PreparedStatement selectStmt
                 = connection.prepareStatement("SELECT * FROM BIOSTATS");
 
