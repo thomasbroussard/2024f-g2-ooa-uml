@@ -33,6 +33,23 @@ public class BiostatDAO {
         insertStatement.execute();
     }
 
+    public void update(BiostatEntry entry) throws SQLException {
+        Connection connection = getConnection();
+
+        PreparedStatement updateStatement = connection
+                .prepareStatement("UPDATE BIOSTATS " +
+                        "GENDER = ?, " +
+                        "AGE = ?," +
+                        "HEIGHT = ?," +
+                        "WEIGHT = ? WHERE NAME = ?");
+        updateStatement.setString(1, entry.getSex());
+        updateStatement.setInt(2, entry.getAge());
+        updateStatement.setInt(3, entry.getHeight());
+        updateStatement.setInt(4, entry.getWeight());
+        updateStatement.setString(5, entry.getName());
+        updateStatement.execute();
+    }
+
     public List<BiostatEntry> readAll() throws SQLException {
         List<BiostatEntry> result = new ArrayList<>();
         Connection connection = getConnection();
