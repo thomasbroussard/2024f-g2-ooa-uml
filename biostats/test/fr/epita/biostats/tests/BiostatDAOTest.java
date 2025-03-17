@@ -9,6 +9,24 @@ import java.util.List;
 public class BiostatDAOTest {
 
     public static void main(String[] args) throws SQLException {
+      //  testUpdate();
+        BiostatDAO biostatDAO = new BiostatDAO();
+
+        BiostatEntry referenceEntry = new BiostatEntry("test", "M", 22, 170, 75);
+        biostatDAO.create(referenceEntry);
+        List<BiostatEntry> entries = biostatDAO.readAll();
+        System.out.println(entries.size());
+
+        biostatDAO.delete(referenceEntry);
+
+        entries = biostatDAO.readAll();
+
+        System.out.println(entries.size());
+
+
+    }
+
+    private static void testUpdate() throws SQLException {
         //context preparation
         BiostatDAO biostatDAO = new BiostatDAO();
 
@@ -24,9 +42,5 @@ public class BiostatDAOTest {
         entries = biostatDAO.readAll();
 
         System.out.println(entries.get(0).getWeight());
-
-
-
-
     }
 }

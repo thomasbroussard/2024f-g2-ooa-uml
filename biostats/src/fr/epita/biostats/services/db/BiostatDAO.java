@@ -52,6 +52,32 @@ public class BiostatDAO {
         updateStatement.execute();
     }
 
+    public void delete(BiostatEntry entry) throws SQLException {
+        Connection connection = getConnection();
+
+        PreparedStatement deleteStatement = connection
+                .prepareStatement("""
+                    DELETE FROM BIOSTATS WHERE NAME = ?
+                 """);
+        deleteStatement.setString(1, entry.getName());
+        deleteStatement.execute();
+    }
+
+
+    public List<BiostatEntry> search(BiostatEntry qube) throws SQLException {
+
+        String sqlSearch = """
+                SELECT * FROM BIOSTATS
+                WHERE
+                    (NAME IS NULL OR NAME = ?)
+                    AND (AGE IS NULL OR AGE = ?)
+                    
+                
+                """;
+        PreparedStatement statement = getConnection().prepareStatement(sqlSearch);
+
+    }
+
     public List<BiostatEntry> readAll() throws SQLException {
         List<BiostatEntry> result = new ArrayList<>();
         Connection connection = getConnection();
