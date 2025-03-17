@@ -1,13 +1,17 @@
 package fr.epita.biostats.services.db;
 
 import fr.epita.biostats.datamodel.BiostatEntry;
+import fr.epita.biostats.services.ConfigurationService;
 
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BiostatDAO {
 
+
+    private final ConfigurationService configurationService;
 
     /**
      * <strong>be careful</strong> while using this constructor, it creates a connection and attempts to create the biostats table
@@ -17,6 +21,7 @@ public class BiostatDAO {
         Connection connection = getConnection();
         PreparedStatement createTableStmt = connection.prepareStatement("CREATE TABLE IF NOT EXISTS BIOSTATS (NAME varchar(255), GENDER CHAR, AGE INT, HEIGHT INT, WEIGHT INT)");
         createTableStmt.execute();
+        this.configurationService = new ConfigurationService();
 
     }
 
@@ -31,6 +36,8 @@ public class BiostatDAO {
         insertStatement.setInt(4, entry.getHeight());
         insertStatement.setInt(5, entry.getWeight());
         insertStatement.execute();
+
+        connection.close();
     }
 
     public void update(BiostatEntry entry) throws SQLException {
@@ -50,6 +57,9 @@ public class BiostatDAO {
         updateStatement.setInt(4, entry.getWeight());
         updateStatement.setString(5, entry.getName());
         updateStatement.execute();
+
+
+        connection.close();
     }
 
     public void delete(BiostatEntry entry) throws SQLException {
@@ -61,6 +71,9 @@ public class BiostatDAO {
                  """);
         deleteStatement.setString(1, entry.getName());
         deleteStatement.execute();
+
+
+        connection.close();
     }
 
 
@@ -76,6 +89,7 @@ public class BiostatDAO {
                 """;
         PreparedStatement statement = getConnection().prepareStatement(sqlSearch);
 
+        connection.close();
     }
 
     public List<BiostatEntry> readAll() throws SQLException {
@@ -94,14 +108,19 @@ public class BiostatDAO {
             result.add(new BiostatEntry(name, gender, age, height, weight));
         }
 
+        connection.close();
         return result;
 
     }
 
 
-    private static Connection getConnection() throws SQLException {
+    private Connection getConnection() throws SQLException {
+
         Connection connection = DriverManager
-                .getConnection("jdbc:h2:mem:test", "user", "password");
+                .getConnection(configurationService.getProperty("db.url"),
+                        configurationService.getProperty("db.user"),
+                        configurationService.getProperty("db.password")
+                );
         return connection;
     }
 }
