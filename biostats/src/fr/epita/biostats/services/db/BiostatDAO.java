@@ -37,11 +37,13 @@ public class BiostatDAO {
         Connection connection = getConnection();
 
         PreparedStatement updateStatement = connection
-                .prepareStatement("UPDATE BIOSTATS " +
-                        "GENDER = ?, " +
-                        "AGE = ?," +
-                        "HEIGHT = ?," +
-                        "WEIGHT = ? WHERE NAME = ?");
+                .prepareStatement("""
+                    UPDATE BIOSTATS SET GENDER = ?, 
+                        AGE = ?,
+                        HEIGHT = ?,
+                        WEIGHT = ?
+                     WHERE NAME = ?
+                 """);
         updateStatement.setString(1, entry.getSex());
         updateStatement.setInt(2, entry.getAge());
         updateStatement.setInt(3, entry.getHeight());
