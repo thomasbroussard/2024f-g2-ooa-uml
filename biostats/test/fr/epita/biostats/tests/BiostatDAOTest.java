@@ -2,6 +2,7 @@ package fr.epita.biostats.tests;
 
 import fr.epita.biostats.datamodel.BiostatEntry;
 import fr.epita.biostats.services.db.BiostatDAO;
+import fr.epita.biostats.services.exception.CreationException;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -14,9 +15,14 @@ public class BiostatDAOTest {
 
         BiostatEntry referenceEntry = new BiostatEntry("test", "M", 22, 170, 75);
         BiostatEntry otherEntry = new BiostatEntry("testF", "F", 25, 190, 70);
-        biostatDAO.create(referenceEntry);
-        biostatDAO.create(otherEntry);
-
+        try {
+            biostatDAO.create(referenceEntry);
+            biostatDAO.create(otherEntry);
+            biostatDAO.create(new BiostatEntry("TestError", "Female", 23, 180, 67));
+        }catch (CreationException creationException){
+            //something to display to the user in that case
+            creationException.printStackTrace();
+        }
         List<BiostatEntry> entries = biostatDAO.readAll();
         System.out.println(entries.size());
 
@@ -35,7 +41,7 @@ public class BiostatDAOTest {
 
     }
 
-    private static void testUpdate() throws SQLException {
+    private static void testUpdate() throws SQLException, CreationException {
         //context preparation
         BiostatDAO biostatDAO = new BiostatDAO();
 

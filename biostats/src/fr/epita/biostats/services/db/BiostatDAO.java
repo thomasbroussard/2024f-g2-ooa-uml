@@ -5,7 +5,9 @@ import fr.epita.biostats.datamodel.BiostatEntry;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+
 import fr.epita.biostats.services.ConfigurationService;
+import fr.epita.biostats.services.exception.CreationException;
 
 public class BiostatDAO {
 
@@ -14,6 +16,7 @@ public class BiostatDAO {
 
     /**
      * <strong>be careful</strong> while using this constructor, it creates a connection and attempts to create the biostats table
+     *
      * @throws SQLException
      */
     public BiostatDAO() throws SQLException {
@@ -23,19 +26,25 @@ public class BiostatDAO {
         createTableStmt.execute();
     }
 
-    public void create(BiostatEntry entry) throws SQLException {
-        Connection connection = getConnection();
+    public void create(BiostatEntry entry) throws CreationException {
 
-        PreparedStatement insertStatement = connection
-                .prepareStatement("INSERT INTO BIOSTATS (NAME, GENDER, AGE, HEIGHT, WEIGHT) VALUES (?, ?, ?, ?, ?)");
-        insertStatement.setString(1, entry.getName());
-        insertStatement.setString(2, entry.getSex());
-        insertStatement.setInt(3, entry.getAge());
-        insertStatement.setInt(4, entry.getHeight());
-        insertStatement.setInt(5, entry.getWeight());
-        insertStatement.execute();
+        try (Connection connection = getConnection()){
+            PreparedStatement insertStatement = connection
+                    .prepareStatement("INSERT INTO BIOSTATS (NAME, GENDER, AGE, HEIGHT, WEIGHT) VALUES (?, ?, ?, ?, ?)");
+            insertStatement.setString(1, entry.getName());
+            insertStatement.setString(2, entry.getSex());
+            insertStatement.setInt(3, entry.getAge());
+            insertStatement.setInt(4, entry.getHeight());
+            insertStatement.setInt(5, entry.getWeight());
+            insertStatement.execute();
+        } catch (SQLException sqle){
+            //if this a connection issue maybe we can retry
+            CreationException creationException = new CreationException("creation of record could not complete");
+            creationException.initCause(sqle);
+            throw creationException;
 
-        connection.close();
+        }
+
     }
 
     public void update(BiostatEntry entry) throws SQLException {
@@ -43,12 +52,12 @@ public class BiostatDAO {
 
         PreparedStatement updateStatement = connection
                 .prepareStatement("""
-                    UPDATE BIOSTATS SET GENDER = ?, 
-                        AGE = ?,
-                        HEIGHT = ?,
-                        WEIGHT = ?
-                     WHERE NAME = ?
-                 """);
+                           UPDATE BIOSTATS SET GENDER = ?, 
+                               AGE = ?,
+                               HEIGHT = ?,
+                               WEIGHT = ?
+                            WHERE NAME = ?
+                        """);
         updateStatement.setString(1, entry.getSex());
         updateStatement.setInt(2, entry.getAge());
         updateStatement.setInt(3, entry.getHeight());
@@ -65,8 +74,8 @@ public class BiostatDAO {
 
         PreparedStatement deleteStatement = connection
                 .prepareStatement("""
-                    DELETE FROM BIOSTATS WHERE NAME = ?
-                 """);
+                           DELETE FROM BIOSTATS WHERE NAME = ?
+                        """);
         deleteStatement.setString(1, entry.getName());
         deleteStatement.execute();
 
@@ -99,7 +108,7 @@ public class BiostatDAO {
         statement.setObject(9, qube.getWeight(), JDBCType.INTEGER);
         statement.setObject(10, qube.getWeight(), JDBCType.INTEGER);
         ResultSet resultSet = statement.executeQuery();
-        while (resultSet.next()){
+        while (resultSet.next()) {
             String name = resultSet.getString("name");
             String gender = resultSet.getString("gender");
             Integer age = resultSet.getInt("age");
@@ -118,7 +127,7 @@ public class BiostatDAO {
                 = connection.prepareStatement("SELECT * FROM BIOSTATS");
 
         ResultSet resultSet = selectStmt.executeQuery();
-        while (resultSet.next()){
+        while (resultSet.next()) {
             String name = resultSet.getString("name");
             String gender = resultSet.getString("gender");
             Integer age = resultSet.getInt("age");

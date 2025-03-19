@@ -2,12 +2,13 @@ package fr.epita.biostats.tests;
 
 import fr.epita.biostats.datamodel.BiostatEntry;
 import fr.epita.biostats.services.db.BiostatDAO;
+import fr.epita.biostats.services.exception.CreationException;
 
 import java.sql.*;
 
 public class DatabaseAccessTest {
 
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) throws SQLException, CreationException {
         // we need a database
         // we need the url to access this db
         // user + password

@@ -2,6 +2,7 @@ package fr.epita.biostats.services;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Properties;
 
 public class ConfigurationService {
@@ -30,9 +31,15 @@ public class ConfigurationService {
         }
     }
 
-    public String getProperty(String key){
+    public String getProperty(String key) {
         return properties.getProperty(key);
     }
+
+    public String getPropertyOrDefault(String key, String defaultValue){
+        return properties.getProperty(key, defaultValue);
+    }
+
+
 
 
 }
