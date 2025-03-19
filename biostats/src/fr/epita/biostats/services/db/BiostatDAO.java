@@ -1,12 +1,11 @@
 package fr.epita.biostats.services.db;
 
 import fr.epita.biostats.datamodel.BiostatEntry;
-import fr.epita.biostats.services.ConfigurationService;
 
-import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import fr.epita.biostats.services.ConfigurationService;
 
 public class BiostatDAO {
 
@@ -18,11 +17,10 @@ public class BiostatDAO {
      * @throws SQLException
      */
     public BiostatDAO() throws SQLException {
+        this.configurationService = ConfigurationService.getInstance();
         Connection connection = getConnection();
         PreparedStatement createTableStmt = connection.prepareStatement("CREATE TABLE IF NOT EXISTS BIOSTATS (NAME varchar(255), GENDER CHAR, AGE INT, HEIGHT INT, WEIGHT INT)");
         createTableStmt.execute();
-        this.configurationService = new ConfigurationService();
-
     }
 
     public void create(BiostatEntry entry) throws SQLException {
@@ -78,18 +76,39 @@ public class BiostatDAO {
 
 
     public List<BiostatEntry> search(BiostatEntry qube) throws SQLException {
-
+        List<BiostatEntry> entries = new ArrayList<>();
         String sqlSearch = """
                 SELECT * FROM BIOSTATS
                 WHERE
-                    (NAME IS NULL OR NAME = ?)
-                    AND (AGE IS NULL OR AGE = ?)
-                    
-                
+                    (? IS NULL OR NAME = ?)
+                    AND (? IS NULL OR AGE = ?)
+                    AND (? IS NULL OR GENDER = ?)
+                    AND (? IS NULL OR HEIGHT = ?)
+                    AND (? IS NULL OR WEIGHT = ?)
                 """;
-        PreparedStatement statement = getConnection().prepareStatement(sqlSearch);
-
+        Connection connection = getConnection();
+        PreparedStatement statement = connection.prepareStatement(sqlSearch);
+        statement.setObject(1, qube.getName(), JDBCType.VARCHAR);
+        statement.setObject(2, qube.getName(), JDBCType.VARCHAR);
+        statement.setObject(3, qube.getAge(), JDBCType.INTEGER);
+        statement.setObject(4, qube.getAge(), JDBCType.INTEGER);
+        statement.setObject(5, qube.getSex(), JDBCType.VARCHAR);
+        statement.setObject(6, qube.getSex(), JDBCType.VARCHAR);
+        statement.setObject(7, qube.getHeight(), JDBCType.INTEGER);
+        statement.setObject(8, qube.getHeight(), JDBCType.INTEGER);
+        statement.setObject(9, qube.getWeight(), JDBCType.INTEGER);
+        statement.setObject(10, qube.getWeight(), JDBCType.INTEGER);
+        ResultSet resultSet = statement.executeQuery();
+        while (resultSet.next()){
+            String name = resultSet.getString("name");
+            String gender = resultSet.getString("gender");
+            Integer age = resultSet.getInt("age");
+            Integer height = resultSet.getInt("height");
+            Integer weight = resultSet.getInt("weight");
+            entries.add(new BiostatEntry(name, gender, age, height, weight));
+        }
         connection.close();
+        return entries;
     }
 
     public List<BiostatEntry> readAll() throws SQLException {

@@ -1,8 +1,6 @@
 package fr.epita.biostats.services;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -10,7 +8,19 @@ public class ConfigurationService {
 
     Properties properties = new Properties();
 
-    public ConfigurationService()  {
+    private static ConfigurationService instance;
+
+
+    public static ConfigurationService getInstance() {
+        synchronized (ConfigurationService.class) {
+            if (instance == null) {
+                instance = new ConfigurationService();
+            }
+        }
+        return instance;
+    }
+
+    private ConfigurationService()  {
         try {
             FileInputStream inStream = new FileInputStream("biostats/configuration.properties");
             properties.load(inStream);
